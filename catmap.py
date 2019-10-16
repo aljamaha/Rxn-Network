@@ -7,17 +7,6 @@ import os
 import sys
 from shared_functions import carbon_number, carbon_fragments, inverse_structure
 
-'''
-writes the reaction lists in catmap format
-
-Input:
-pkl file containing reactants, ts, and final products
-
-Output:
-List of elementary steps in CatMap format
-'''
-
-
 def catmap():
 	reactant = sys.argv[1]
 	f = open(reactant+'-catmap.log','w')
@@ -76,4 +65,3 @@ def catmap():
 				
 	f.close()
 
-catmap()
