@@ -3,7 +3,7 @@ from copy import deepcopy
 from generate_species import *
 from reduce_species import *
 from catmap import *
-from post_process_catmap import *
+from post_process import *
 
 'Input:'
 reactant = sys.argv[1]	#name of the hydrocarbon reactant
