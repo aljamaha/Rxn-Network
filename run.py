@@ -70,11 +70,4 @@ print 'removing repeated catmap rxns ...'
 post_process(reactant)
 
 
-'''
-print 'generating reactions list ...'
-os.system('python generate_species.py '+reactant)
-print 'eliminating repeated reactions ...'
-os.system('python reduce-species.py '+reactant) 
-os.system('python catmap.py '+reactant)
-os.system('post-process-catmap.py')
-'''
+print('*** Done ***')
