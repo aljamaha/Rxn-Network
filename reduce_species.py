@@ -6,16 +6,9 @@ import os
 import sys 
 from shared_functions import *
 
-
-#'Objective:'
-#'eliminates repeated products and products with the same strucutre but inversed (CH3CH/CHCH3)'
-
-#reactant = sys.argv[1]
-
 def load_product_list(reactant):
 	'load data from already generated pickle files for products list'
 	pro_list = pickle.load((open(reactant+'-ts-dict-full.pkl','rb')))
-	#print 'original length = ', len(pro_list)
 	return pro_list
 
 def inverse_structure(pro_list):
@@ -51,7 +44,6 @@ def unrealistic_3O_products(pro_list):
 				del unrealistic[item]
 				
 				break
-	#print 'after removing unrealistic products with 3O = ', len(unrealistic)
 	return unrealistic
 
 def removing_3O_from_C1(pro_list):
@@ -65,7 +57,6 @@ def removing_3O_from_C1(pro_list):
 					 i += 1
 			if i > 2:
 				del unrealistic[item]
-	#print 'after removing unrealistic 3O products from C1 = ', len(unrealistic)
 	return unrealistic
 
 def unlikely_products(pro_list):
@@ -93,7 +84,6 @@ def unlikely_products(pro_list):
 				del unrealistic[item]
 				break		
 
-	#print 'After removing unlikely items = ', len(unrealistic)
 	return unrealistic
 
 def remove_HOOH(pro_list):
@@ -106,7 +96,6 @@ def remove_HOOH(pro_list):
 					del remove_HOOH[item]
 					break
 
-	#print 'after removing HOOH = ', len(remove_HOOH)
 	return remove_HOOH
 
 def middle_carbon_2O(pro_list):
@@ -122,7 +111,6 @@ def middle_carbon_2O(pro_list):
 				if i > 1:
 					del cut[item]				
 					break
-	#print 'after removing middle carbon with 2O = ', len(cut)
 	return cut
 
 def rename_fs(pro_list):
@@ -148,7 +136,6 @@ def rename_fs(pro_list):
 			elif fs[1] == 'H':
 				continue
 			else:
-                                #print fs[0],fs[1]
                                 if fs[0] or fs[1] in ['COHOHOH','COHOH','COHOO','COHOOH']: #for some reason it is not in products list
                                     continue
                                 else:
@@ -207,8 +194,6 @@ def rename_COHO_to_COOH(pro_list):
                     new = renamed_list_3[item][key].replace('COHO','COOH')
                     renamed_list_4[item][key] = new
         
-	#print 'after renaming COHO to COOH ', len(renamed_list_4)
-
 	return renamed_list_4
 
 
@@ -221,7 +206,7 @@ def CHO_middle_carbon(pro_list):
 		if carbon_number(item)[0] == 3:
 			if carbon_fragments(item)[1] == 'CHO':
 						del pro_list[item]
-	#print 'length after CHO middle carbon =', len(pro_list)
+
 	return pro_list
 
 def CHOH_middle_carbon(pro_list):
@@ -239,7 +224,7 @@ def CHOH_middle_carbon(pro_list):
 					continue
 				else:
 					del pro_list[item]
-	#print 'length after CHOH middle carbon =', len(pro_list)
+
 	return pro_list
 
 def CO_middle_carbon(pro_list):
@@ -255,7 +240,7 @@ def CO_middle_carbon(pro_list):
 					continue
 				else:
 					del pro_list[item]
-	#print 'length after CO middle carbon =', len(pro_list)
+
 	return pro_list
 
 def CHO_tail_carbon(pro_list):
@@ -268,26 +253,8 @@ def CHO_tail_carbon(pro_list):
 					continue
 				else:
 					del pro_list[item]
-	#print 'length after CHO at tail connected to a C-X =', len(pro_list)
-	return pro_list
 
-def check_energy(pro_list):
-	'check if I have the energy of all species'
-	os.chdir('/nfs/slac/g/suncatfs/aljamaha/scaling/C3H6-scaling/Pd/surface-211')
-	os.system("ls > tmp")
-	folders = [line.rstrip('\n') for line in open('tmp')] #adsorbates I have energy calculations
-	List_of_ads = []
-	total = 0
-	for ads in pro_list:
-		'how many energies do I have?'
-		if ads in folders:
-			total += 1
-                elif C_inverse(ads) in folders:
-                    total += 1
-                #else:
-		     #print ads
-	#print 'total adsorbates I have energy calculations for = ', total
-        #print 'missing calc = ', len(pro_list) - total
+	return pro_list
 
 def adjacent_C_with_O(pro_list):
 	new_list = deepcopy(pro_list)
@@ -301,25 +268,5 @@ def adjacent_C_with_O(pro_list):
 			elif 'O' in carbon_fragments(item)[1] and 'O' in carbon_fragments(item)[2]:
 				del pro_list[item]
 
-	#print 'length after adjacent oxygens are removed', len(pro_list)
 	return pro_list
 
-'''
-loaded_product_list = load_product_list(reactant)
-a = inverse_structure(loaded_product_list)
-a = rename_COHO_to_COOH(a)
-a = rename_fs(a)
-a = repeated_fs(a)
-a = removing_3O_from_C1(a)
-a = unrealistic_3O_products(a)
-a = remove_HOOH(a)
-a = middle_carbon_2O(a)
-a = unlikely_products(a)
-a = CHO_middle_carbon(a)
-a = CHOH_middle_carbon(a)
-a = CO_middle_carbon(a) 
-a = CHO_tail_carbon(a)
-a = adjacent_C_with_O(a)
-
-pickle.dump(a,open(reactant+"-ts-dict-reduced.pkl",'wb'),0)
-'''

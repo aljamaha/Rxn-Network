@@ -19,7 +19,7 @@ List of all species in the reaction network
 '''
 
 print 'generating reactions list ...'
-p, d, s = final(reactant)
+final(reactant)
 
 '''
 Step 2: Eliminates repeated products and products with the same strucutre but inversed (CH3CH/CHCH3)
@@ -29,7 +29,6 @@ Returns a dictionary where repeated products are eliminated
 '''
 
 print 'eliminating repeated reactions ...'
-
 
 loaded_product_list = load_product_list(reactant)
 a = inverse_structure(loaded_product_list)
@@ -68,6 +67,5 @@ reaction list printed in CatMap input format without repeated reactions
 
 print 'removing repeated catmap rxns ...'
 post_process(reactant)
-
 
 print('*** Done ***')
